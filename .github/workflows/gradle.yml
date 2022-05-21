@@ -19,10 +19,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-lastest, windows-lastest, macOS-latest]
+    runs-on: ubuntu-lastest
 
     steps:
     - uses: actions/checkout@v3
@@ -35,3 +32,11 @@ jobs:
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
         arguments: build
+    - name: Build and push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: agbate/charlesproject2513
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+       
